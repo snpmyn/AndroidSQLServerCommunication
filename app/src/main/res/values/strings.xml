@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidSQLServerCommunication</string>
+    <string name="connect">连接</string>
+    <string name="queryAll">查询全部</string>
+    <string name="insert">插入</string>
+    <!--format-->
+    <string name="connectState">连接状态：%1$s</string>
+    <string name="insertState">插入状态：%1$s</string>
 </resources>
