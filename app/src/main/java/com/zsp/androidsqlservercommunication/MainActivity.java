@@ -7,9 +7,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Arrays;
+import com.zsp.androidsqlservercommunication.library.SqlServerController;
 
-import controller.SqlServerController;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * @decs: 主页
@@ -41,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setListener();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sqlServerController.close();
+    }
+
     /**
      * 初始化控件
      */
@@ -55,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化配置
      */
     private void initConfiguration() {
-        sqlServerController = new SqlServerController();
+        sqlServerController = new SqlServerController("192.168.1.13", "huiguanjia", "sa", "root");
     }
 
     /**
@@ -76,12 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             // 查询全部
             case R.id.mainActivityMbQueryAll:
-                mainActivityTv.setText(Arrays.toString(sqlServerController.queryAll()));
+                queryAll();
                 break;
             // 插入
             case R.id.mainActivityMbInsert:
-                Boolean insertState = sqlServerController.insert();
-                mainActivityTv.setText(String.format(getString(R.string.insertState), String.valueOf(insertState)));
+                insert();
                 break;
             default:
                 break;
@@ -97,5 +104,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Boolean connectState = sqlServerController.connect();
             mainActivityTv.setText(String.format(getString(R.string.connectState), String.valueOf(connectState)));
         }
+    }
+
+    /**
+     * 查询全部
+     */
+    private void queryAll() {
+        String[] results = new String[4];
+        // 查询dbName表所有内容
+        String sqlQueryAll = "select * from dbName;";
+        ResultSet resultSet = sqlServerController.query(sqlQueryAll);
+        // ResultSet最初指向第一行
+        while (true) {
+            try {
+                if (null == resultSet || !resultSet.next()) {
+                    break;
+                }
+                results[0] = resultSet.getString(1);
+                results[1] = resultSet.getString(2);
+                results[2] = resultSet.getString(3);
+                results[3] = resultSet.getString(4);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (null != resultSet) {
+                        resultSet.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        mainActivityTv.setText(Arrays.toString(results));
+    }
+
+    /**
+     * 插入
+     */
+    private void insert() {
+        String sqlInsert = "insert into dbName(name,password,mail) values('zhangsan','123456','zhangsan@123.com');";
+        Boolean insertState = sqlServerController.insert(sqlInsert);
+        mainActivityTv.setText(String.format(getString(R.string.insertState), String.valueOf(insertState)));
     }
 }
