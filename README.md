@@ -9,14 +9,12 @@
 Android客户端与SQL Server通信。
 
 ### 架构
-
 | 模块 | 说明 | 补充 |
 |:-:|:-:|:-:|
 | 示例app | 用法举例 | 无 |
 | 一方库Library | 功能实现 | 无 |
 
 ### 依赖、权限
-
 | 模块 | 依赖 |
 |:-:|:-:|
 | 示例app | implementation project(path: ':library') |

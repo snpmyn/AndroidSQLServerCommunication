@@ -15,19 +15,19 @@ public class SqlServerController {
     /**
      * IP
      */
-    private String ip;
+    private final String ip;
     /**
      * 数据库名
      */
-    private String dbName;
+    private final String dbName;
     /**
      * 用户
      */
-    private String user;
+    private final String user;
     /**
      * 密码
      */
-    private String password;
+    private final String password;
     /**
      * Statement
      */
