@@ -1,13 +1,16 @@
-package com.zsp.androidsqlservercommunication.library;
+package com.zsp.androidsqlservercommunication;
+
+import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 /**
- * @decs: SQL Server控制器
+ * @decs: SQL Server 控制器
  * @author: 郑少鹏
  * @date: 2019/11/8 11:33
  */
@@ -68,9 +71,9 @@ public class SqlServerController {
     /**
      * 查询
      * <p>
-     * ResultSet类似Cursor。
+     * ResultSet 类似 Cursor
      *
-     * @param querySql 查询Sql
+     * @param querySql 查询 SQL
      * @return 结果集
      */
     public ResultSet query(String querySql) {
@@ -79,7 +82,7 @@ public class SqlServerController {
             resultSet = statement.executeQuery(querySql);
             return resultSet;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), Objects.requireNonNull(e.getMessage()));
             return null;
         }
     }
@@ -87,8 +90,8 @@ public class SqlServerController {
     /**
      * 插入
      *
-     * @param insertSql 插入Sql
-     * @return boolean（true成功、false失败）
+     * @param insertSql 插入 SQL
+     * @return boolean（true 成功、false 失败）
      */
     public boolean insert(String insertSql) {
         try {
@@ -100,7 +103,7 @@ public class SqlServerController {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getSimpleName(), Objects.requireNonNull(e.getMessage()));
             return false;
         }
         return false;
@@ -114,7 +117,7 @@ public class SqlServerController {
             try {
                 statement.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                Log.e(this.getClass().getSimpleName(), Objects.requireNonNull(e.getMessage()));
             }
         }
     }

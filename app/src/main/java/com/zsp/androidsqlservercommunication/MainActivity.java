@@ -2,17 +2,18 @@ package com.zsp.androidsqlservercommunication;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.zsp.androidsqlservercommunication.library.SqlServerController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @decs: 主页
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mainActivityMbQueryAll;
     private Button mainActivityMbInsert;
     /**
-     * SQL Server控制器
+     * SQL Server 控制器
      */
     private SqlServerController sqlServerController;
 
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         switch (view.getId()) {
             // 连接
             case R.id.mainActivityMbConnect:
@@ -114,29 +115,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void queryAll() {
         String[] results = new String[4];
-        // 查询dbName表所有内容
+        // 查询 dbName 表所有内容
         String sqlQueryAll = "select * from dbName;";
-        ResultSet resultSet = sqlServerController.query(sqlQueryAll);
-        // ResultSet最初指向第一行
+        // ResultSet 最初指向第一行
         while (true) {
-            try {
-                if (null == resultSet || !resultSet.next()) {
-                    break;
-                }
-                results[0] = resultSet.getString(1);
-                results[1] = resultSet.getString(2);
-                results[2] = resultSet.getString(3);
-                results[3] = resultSet.getString(4);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
+            try (ResultSet resultSet = sqlServerController.query(sqlQueryAll)) {
                 try {
-                    if (null != resultSet) {
-                        resultSet.close();
+                    if (null == resultSet || !resultSet.next()) {
+                        break;
                     }
+                    results[0] = resultSet.getString(1);
+                    results[1] = resultSet.getString(2);
+                    results[2] = resultSet.getString(3);
+                    results[3] = resultSet.getString(4);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    Log.e(this.getClass().getSimpleName(), Objects.requireNonNull(e.getMessage()));
                 }
+            } catch (SQLException e) {
+                Log.e(this.getClass().getSimpleName(), Objects.requireNonNull(e.getMessage()));
             }
         }
         mainActivityTv.setText(Arrays.toString(results));

@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 36
     defaultConfig {
         applicationId "com.zsp.androidsqlservercommunication"
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion 24
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -17,13 +16,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.zsp.androidsqlservercommunication'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     /*自带*/
-    implementation project(path: ':library')
-    /*library*/
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.3.0"
+    /*kotlin*/
+    implementation "net.sourceforge.jtds:jtds:1.3.1"
+    /*jtds*/
 }
