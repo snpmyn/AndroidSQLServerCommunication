@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         while (true) {
             try (ResultSet resultSet = sqlServerController.query(sqlQueryAll)) {
                 try {
-                    if (null == resultSet || !resultSet.next()) {
+                    if ((null == resultSet) || !resultSet.next()) {
                         break;
                     }
                     results[0] = resultSet.getString(1);
