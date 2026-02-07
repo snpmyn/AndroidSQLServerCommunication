@@ -1,6 +1,6 @@
 ### 介绍
 
-Android 客户端与 SQL Server 通信。
+Android 客户端与 SQL Server 通信
 
 ### License
 
