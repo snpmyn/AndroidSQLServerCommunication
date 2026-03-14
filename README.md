@@ -2,6 +2,8 @@
 
 Android 客户端与 SQL Server 通信
 
+Android → JDBC → SQL Server
+
 ### License
 
 ```
