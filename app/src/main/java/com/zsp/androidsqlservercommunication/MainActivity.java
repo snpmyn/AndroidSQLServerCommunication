@@ -1,6 +1,5 @@
 package com.zsp.androidsqlservercommunication;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -77,24 +76,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainActivityMbInsert.setOnClickListener(this);
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(@NonNull View view) {
-        switch (view.getId()) {
-            // 连接
-            case R.id.mainActivityMbConnect:
-                new ConnectThread().run();
-                break;
-            // 查询全部
-            case R.id.mainActivityMbQueryAll:
-                queryAll();
-                break;
-            // 插入
-            case R.id.mainActivityMbInsert:
-                insert();
-                break;
-            default:
-                break;
+        if (view == mainActivityMbConnect) {
+            new Thread(new ConnectThread()).start();
+        } else if (view == mainActivityMbQueryAll) {
+            queryAll();
+        } else if (view == mainActivityMbInsert) {
+            insert();
         }
     }
 
@@ -102,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 连接线程
      */
     class ConnectThread implements Runnable {
-        @SuppressLint("StringFormatMatches")
         @Override
         public void run() {
             Boolean connectState = sqlServerController.connect();
@@ -141,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 插入
      */
-    @SuppressLint("StringFormatMatches")
     private void insert() {
         String sqlInsert = "insert into dbName(name,password,mail) values('zhangsan','123456','zhangsan@123.com');";
         Boolean insertState = sqlServerController.insert(sqlInsert);
