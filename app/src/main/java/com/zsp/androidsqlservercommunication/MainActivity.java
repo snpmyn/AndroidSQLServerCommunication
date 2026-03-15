@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(@NonNull View view) {
         if (view == mainActivityMbConnect) {
-            new Thread(new ConnectThread()).start();
+            new ConnectThread().run();
         } else if (view == mainActivityMbQueryAll) {
             queryAll();
         } else if (view == mainActivityMbInsert) {
